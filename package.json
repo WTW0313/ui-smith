@@ -1,0 +1,16 @@
+{
+  "name": "ui-smith",
+  "version": "0.1.0",
+  "description": "Agent skill for scaffolding app-owned, accessible React component kits from Base UI primitives.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "agent-skill",
+    "coding-agent",
+    "react",
+    "base-ui",
+    "component-kit",
+    "design-system"
+  ]
+}

@@ -1,0 +1,21 @@
+# Use Per-Component Folders With Explicit Imports
+
+UI Smith will preserve the host repository's convention for where the Component Kit Root lives, then apply a Normalized Kit Layout inside that root. Each component gets its own flat, lowercase/kebab-case Component Folder, and the component source plus per-component contracts, briefs, examples, tests, stories, and verification notes live directly inside that folder using lowercase/kebab-case file names. Component Folder locality overrides central test, story, example, or contract folder conventions for UI Smith component artifacts. Compound components keep their App-Facing Component and Composable Parts in the same component source file instead of splitting each part into a separate file. Kit-wide artifacts such as shared tokens, the Kit README, and shared Integration Layer files live at the Component Kit Root instead of inside any Component Folder. Shared Kit Utilities are allowed at the Component Kit Root only when at least two Component Folders need them, and they must not re-export components. UI Smith will avoid barrel files and directory-index imports; imports should use the host repository's alias when one exists and otherwise use relative paths, while still targeting the concrete component file. The Kit Manifest must record each component's Component Setup Status, folder, source file, contract, brief, example, test, story, verification note, and explicit import path so Coding Agents do not infer paths from naming rules. Optional artifacts must still be represented with Artifact Status metadata, so absence means `not-requested`, `pending-approval`, `unsupported`, or `skipped` instead of silently missing. The controlled Artifact Status set is `scaffolded`, `pending-agent-authoring`, `pending-approval`, `not-requested`, `unsupported`, and `skipped`; the controlled Component Setup Status set is `planned`, `in-progress`, `blocked`, `ready`, and `skipped`. This lets Coding Agents inspect one component's full artifact set in one place and understand setup progress, while the Kit Manifest points to concrete files at the cost of slightly longer import paths.
+
+A component can be marked `ready` only when source, contract, brief, example, and verification artifacts are `scaffolded`; tests are either `scaffolded` or explicitly non-blocking with a reason; and stories are `scaffolded`, `not-requested`, `unsupported`, or `skipped`. If source is `pending-agent-authoring`, the component is `in-progress`, not `ready`.
+
+The Normalized Kit Layout is non-optional for UI Smith-scaffolded components. UI Smith may preserve where the Component Kit Root lives, but it must not opt out of the normalized structure inside that root; later app-owned restructuring is ordinary application development outside UI Smith's scaffold-first promise.
+
+When an existing host repository component or file conflicts with a normalized target path or component name, UI Smith records a Component Layout Conflict in the Generation Plan instead of moving, overwriting, or silently adopting the existing component. The user must choose `skip`, `replace`, or `scaffold-new`: skip leaves the component out of the scaffold, replace adapts the existing component into the Normalized Kit Layout after approval, and scaffold-new creates a normalized component with a user-approved non-conflicting name. A scaffold-new result is a distinct component identity in the Component Inventory, with the original requested component recorded for traceability instead of treating the new name as an alias.
+
+Component-local CSS files are not part of the default Normalized Kit Layout. Styling should flow through kit-root tokens and component source classes; a component-local CSS file requires an explicit reason in the Generation Plan.
+
+## Considered Options
+
+- Keep a flat `components/ui/*.tsx` structure with shared artifact folders.
+- Use per-component folders with `index.ts` barrel files for short imports.
+- Use per-component folders with explicit file imports.
+- Use PascalCase file names inside lowercase/kebab-case folders.
+- Split each Base UI part in a compound component into a separate source file.
+- Require every component to duplicate all helper logic instead of using Shared Kit Utilities.
+- Preserve central host test, story, example, or contract folders for UI Smith component artifacts.
