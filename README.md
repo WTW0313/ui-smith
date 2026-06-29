@@ -6,7 +6,9 @@ It is scaffold-first: the skill helps create an initial component kit inside a h
 
 ## Install
 
-Copy `skills/ui-smith` into the skill directory used by your agent runtime.
+```bash
+npx skills add WTW0313/ui-smith --skill ui-smith
+```
 
 Then ask your coding agent to use `$ui-smith` in a React repository.
 
